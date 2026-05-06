@@ -1,0 +1,24 @@
+cat > .gitignore << 'EOF'
+# 编译产物
+Binaries/
+Intermediate/
+DerivedDataCache/
+
+# 构建
+Build/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vs/
+.vscode/
+*.sln
+*.suo
+.idea/
+
+# 用户配置
+Saved/
+*.sln.DotSettings.user
+EOF

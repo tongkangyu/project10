@@ -1,0 +1,8 @@
+Name,Type,Price,Auto,Instant,ClipSize,MaxBulletNum,EffectiveRange,AccurateRange,DamageOnHead,DamageOnBody,DamageOnOther,Pierce,ShootInterval,MoveSpeed,AnimGroup,ReloadTime,EquipTime,AimTime,SilencerTime,Recoil,MaxRecoil,RecoilDropSpeed,RecoilConsume,DecalSize,TrackOffset
+AK47,1,2700,1,1,30,90,100000,2200,140,200,27,0.5,0.1,400,0,1.67,0.53,0.5,0,1,5,5,1,10,5
+Shotgun,1,2000,0,1,7,28,100000,100,140,35,27,0.5,0.4,400,1,2.83,0.53,0.5,0,2,5,5,1,10,5
+Knife,3,0,1,1,999999,999999,100,2000,140,250,27,0.5,0.626,400,2,1.67,0.53,0.5,0,2,5,5,5,10,5
+Deagle,2,700,0,1,7,28,100000,1000,140,250,27,0.5,0.4,400,1,2.83,0.53,0.5,0,2,5,5,1,10,5
+AWP,1,4500,0,1,10,30,100000,1000,140,500,27,0.5,0.4,400,1,2.83,0.53,0.5,0,2,5,5,1,10,5
+AUG,1,3000,1,1,30,90,100000,2200,140,166,27,0.5,0.1,400,0,1.67,0.53,0.5,0,1,5,5,1,10,5
+P90,1,2500,1,1,50,250,100000,2200,140,100,27,0.5,0.1,400,0,1.67,0.53,0.5,0,0.5,2,2,1,10,2
