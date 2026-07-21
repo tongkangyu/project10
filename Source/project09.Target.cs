@@ -8,8 +8,11 @@ public class project09Target : TargetRules
 	public project09Target(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "project09" } );
+        DefaultBuildSettings = BuildSettingsVersion.V7;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_8;
+        CppStandard = CppStandardVersion.Cpp20;
+
+        ExtraModuleNames.AddRange( new string[] { "project09" } );
 	}
 }

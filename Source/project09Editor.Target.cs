@@ -8,8 +8,11 @@ public class project09EditorTarget : TargetRules
 	public project09EditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "project09" } );
+        DefaultBuildSettings = BuildSettingsVersion.V7;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_8;
+        CppStandard = CppStandardVersion.Cpp20;
+
+        ExtraModuleNames.AddRange( new string[] { "project09" } );
 	}
 }

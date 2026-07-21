@@ -8,8 +8,11 @@ public class project09ServerTarget : TargetRules
 	public project09ServerTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Server;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange(new string[] { "project09" });
+        DefaultBuildSettings = BuildSettingsVersion.V7;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_8;
+        CppStandard = CppStandardVersion.Cpp20;
+
+        ExtraModuleNames.AddRange(new string[] { "project09" });
 	}
 }
