@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 set PROJECT_ROOT=%~dp0
 set PROJECT_ROOT=%PROJECT_ROOT:~0,-1%
-set ENGINE_ROOT=C:\UE4Source\UnrealEngine
+set ENGINE_ROOT=C:\UESource\UnrealEngine5.8
 set PROJECT=%PROJECT_ROOT%\project09.uproject
 set SERVER_ARCHIVE=%PROJECT_ROOT%\Saved\ServerBuild
 set SERVER_BIN=%SERVER_ARCHIVE%\WindowsServer\project09\Binaries\Win64
@@ -111,6 +111,7 @@ echo Output: %SERVER_ARCHIVE%\WindowsServer
 echo Startup script: %SERVER_START_SCRIPT%
 echo Root startup script: %ROOT_START_SCRIPT%
 echo.
+pause
 endlocal
 exit /b 0
 
