@@ -14,7 +14,9 @@ Thumbs.db
 .vs/
 .vscode/
 *.sln
+*.slnx
 *.suo
+.vsconfig
 .idea/
 
 # 用户配置
