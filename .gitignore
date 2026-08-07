@@ -1,4 +1,3 @@
-cat > .gitignore << 'EOF'
 # 编译产物
 Binaries/
 Intermediate/
@@ -21,4 +20,8 @@ Thumbs.db
 # 用户配置
 Saved/
 *.sln.DotSettings.user
-EOF
+
+# 本地工具/运行缓存
+.omo/
+start_packaged_server.bat
+生成项目.bat
