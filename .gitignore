@@ -17,6 +17,7 @@ Thumbs.db
 *.slnx
 *.suo
 .vsconfig
+/start_packaged_server.bat
 .idea/
 
 # 用户配置
