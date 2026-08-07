@@ -118,11 +118,6 @@ void ARoomGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	if (!bEnableNativeRoundRules)
-	{
-		return;
-	}
-
 	bHasHadPlayers = true;
 	CancelEmptyRoomTimer();
 }
