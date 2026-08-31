@@ -79,12 +79,17 @@ void ARoomGameMode::EndRound()
 		}
 	}
 
-	World->GetTimerManager().SetTimer(
-		RestartTimer,
-		this,
-		&ARoomGameMode::RestartRound,
-		RestartDelaySeconds,
-		false);
+	// Dedicated Server 没有本地菜单，需要自己重新加载回合地图。
+	// Listen Server 的房主会通过 ClientReturnToMain 离开，不能再同时 ServerTravel。
+	if (GetNetMode() == NM_DedicatedServer)
+	{
+		World->GetTimerManager().SetTimer(
+			RestartTimer,
+			this,
+			&ARoomGameMode::RestartRound,
+			RestartDelaySeconds,
+			false);
+	}
 }
 
 void ARoomGameMode::StartEmptyRoomTimer()
@@ -126,7 +131,11 @@ void ARoomGameMode::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 
-	if (bEnableNativeRoundRules)
+	UWorld* World = GetWorld();
+
+	// 玩家正常离开时检查是否变成空房间。
+	// 如果世界正在切换地图，就不要再启动计时器。
+	if (World && !World->bIsTearingDown)
 	{
 		StartEmptyRoomTimer();
 	}

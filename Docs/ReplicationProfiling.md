@@ -2,11 +2,20 @@
 
 ## 目的
 
-本文定义修改复制频率、相关性或 Dormancy 前必须获得的证据。性能分析与优化属于 M4 工作。本次文档工作不修改任何当前 `NetUpdateFrequency`、相关性或 Dormancy 设置。
+本文定义修改复制频率、相关性或 Dormancy 前必须获得的证据。性能分析与优化放在 Windows C++ 服务端权威战斗稳定之后。本次文档工作不修改任何当前 `NetUpdateFrequency`、相关性或 Dormancy 设置。
 
 ## 范围
 
-采集两个独立 Windows 客户端连接 Windows Dedicated Server 时的行为。在 C++ 服务端权威战斗切片通过后、任何优化被视为完成前，重复核心采集。
+当前先在 Windows 环境建立基线，最终采集两个独立 Windows 客户端连接 Windows Dedicated Server 时的行为。在 C++ 服务端权威战斗切片通过后、任何优化被视为完成前，重复核心采集。Linux Dedicated Server 适配完成后，再单独采集 Linux 数据，不能把 Windows 和 Linux 的结果混为一组。
+
+当前部署方向：
+
+```text
+本机 Windows 开发
+    -> Windows Dedicated Server 打包
+    -> 腾讯云固定公网 IP 验证
+    -> Linux Dedicated Server 最后适配
+```
 
 分析以下 Actor 组：
 

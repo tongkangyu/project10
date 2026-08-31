@@ -2,7 +2,7 @@
 
 ## 目的
 
-本矩阵记录 UE5.8 多人技术演示的可复现 Dedicated Server 行为测试。M1 建立 LAN 基线；WAN、Lossy 和 Stress 配置属于 M4 工作，在 Dedicated Server 与服务端权威战斗里程碑通过前不得标记为已执行。
+本矩阵记录 UE5.8 多人项目的可复现网络行为测试。当前先在本机 Windows 环境完成 C++ 房间和网络逻辑；随后制作 Windows Dedicated Server，并使用腾讯云固定公网 IP 验证。Linux Dedicated Server 放到 Windows 网络逻辑稳定之后处理。WAN、Lossy 和 Stress 配置在服务器权威战斗完成前不得标记为已执行。
 
 ## 测试环境记录
 
@@ -15,6 +15,12 @@
 | 提交 | 被测项目的 commit hash |
 | 引擎 | 可用时记录 UE5.8 源码构建标识 |
 | 地图 | `/Game/Maps/csgo` |
+| 开发平台 | 当前为 Windows |
+| 服务端类型 | 当前可为 Listen Server；后续为 Windows Dedicated Server |
+| 公网地址 | Windows Dedicated Server 阶段使用腾讯云固定公网 IP |
+| 普通玩家密码 | 不使用 |
+| 账号登录 | 当前不使用 |
+| 服务器列表 | 当前不使用 |
 | 服务端命令 | 完整命令行 |
 | 客户端命令 | 两个客户端的完整命令行 |
 | 网络配置 | LAN、WAN、Lossy 或 Stress |
@@ -51,10 +57,11 @@
 
 ## 执行顺序
 
-1. Windows Dedicated Server 能启动 `csgo` 且两个独立客户端可加入后，立即在 LAN 下执行 T01 至 T08。
-2. 每次影响对应场景的服务端权威战斗改动后，重复完整 LAN 矩阵。
-3. M3 通过后，在 WAN、Lossy 和 Stress 下执行全部八项测试。
-4. M4 验收集包含 32 条结果：八项测试乘以四种网络配置。
+1. 当前先使用 Windows Listen Server 验证房间生命周期和 C++ 接入，不将其记录为 Dedicated Server 结果。
+2. Windows Dedicated Server 能启动 `csgo` 且两个独立客户端可加入后，在 LAN 下执行 T01 至 T08。
+3. 每次影响对应场景的服务端权威战斗改动后，重复完整 LAN 矩阵。
+4. Windows Dedicated Server 和服务端权威战斗通过后，在 WAN、Lossy 和 Stress 下执行全部八项测试。
+5. 最终验收集包含 32 条结果：八项测试乘以四种网络配置。
 
 ## 结果总表
 
@@ -90,6 +97,8 @@
 复测结果：
 ```
 
-## M1 验收记录
+## M1 当前阶段记录
 
-M1 通过前，必须记录一次至少十分钟的 LAN 会话：两个独立客户端连接 Windows Dedicated Server。记录必须证明服务端在无编辑器 UI 的情况下启动，两个客户端都加入 `csgo`，且没有 Fatal、ensure、崩溃或非预期断线。
+M1 是当前 Windows C++ 房间生命周期阶段。它可以使用本机 Windows Listen Server，不等同于 Dedicated Server 验收。M1 通过前需要记录房间进入、退出、倒计时、空房重开和回合结束链路，且没有 Fatal、ensure、崩溃或非预期断线。
+
+Windows Dedicated Server 的独立启动、两个客户端加入和至少十分钟运行，属于后续 M2 验收，不得提前填入 M1 结果。

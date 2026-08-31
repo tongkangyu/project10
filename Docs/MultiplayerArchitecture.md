@@ -10,10 +10,13 @@
 | :--- | :--- |
 | 项目名 | `project09` |
 | 引擎关联版本 | UE5.8 |
-| 迁移基线提交 | `9b508bf` |
+| 已推送稳定提交 | `6d71619` |
 | 默认 GameMode | `/Game/All/BP_MyGamemode.BP_MyGamemode_C` |
 | 默认地图 | `/Game/Season7/Main.Main` |
 | Dedicated Server 验证地图 | `/Game/Maps/csgo` |
+| 当前开发平台 | Windows |
+| 后续公网服务器 | 腾讯云固定公网 IP |
+| Linux 适配 | Windows 网络逻辑稳定后最后处理 |
 
 `/Game/Maps/csgo` 与当前默认地图不同。M1 的启动命令必须显式指定 `csgo`；本次文档工作不修改 `DefaultEngine.ini`。
 
@@ -24,12 +27,27 @@ BP_MyGameInstance
   -> UMyGameInstance_CPP
 
 BP_MyGamemode
-  -> BP_MyGameState
-  -> BP_MyPlayerController
-  -> ShooterPlayerState
-  -> FppShooter
-     -> Shooter
-        -> Weapon
+  -> ARoomGameMode
+     -> AGameModeBase
+
+BP_MyGameState
+  -> ARoomGameState
+     -> AGameStateBase
+
+BP_MyPlayerController
+  -> ARoomPlayerController
+     -> APlayerController
+
+ShooterPlayerState
+  -> APlayerState
+
+FppShooter
+  -> Shooter
+     -> Character
+        -> Pawn
+
+Weapon
+  -> Actor
 ```
 
 `UMyGameInstance_CPP` 当前负责 Listen Server 跳转、客户端跳转和网络失败事件处理。它是会话入口工具，而不是游戏玩法权威层。
@@ -51,9 +69,12 @@ BP_MyGamemode
 
 | 类或资产 | 当前职责 | 必须遵守的权威边界 |
 | :--- | :--- | :--- |
-| `BP_MyGamemode` | 登录/登出、队伍计数、出生点选择、空房间重置、服务器跳图 | 仅服务端规则所有者；客户端不写入规则状态 |
-| `BP_MyGameState` | 公开比赛状态，包括 `RemainingTime` 与 `gameOver` | 接收服务器写入的状态，并复制到客户端 |
-| `BP_MyPlayerController` | 本地玩家控制和 UI 相关状态 | 不得使用未复制的 Controller 字段作为远端可见的名字或队伍真相 |
+| `BP_MyGamemode` | 登录/登出、队伍计数、出生点选择、小地图刷新；当前保留 `StartRound` 触发 | 仅服务端规则所有者；客户端不写入规则状态 |
+| `ARoomGameMode` | 回合倒计时、空房计时、回合结束、Session 返回流程的服务端部分 | 只在服务器修改回合状态和房间计时器 |
+| `BP_MyGameState` | 接收 `RoundState`，映射 `RemainingTime`，显示 `gameOver` UI | 接收服务器写入的状态，并复制到客户端 |
+| `ARoomGameState` | 复制 `RoundState` 和回合阶段 | `RoundState` 是回合时间和阶段的真实来源 |
+| `BP_MyPlayerController` | 本地玩家控制、UI 初始化和退出清理 | 不得使用未复制的 Controller 字段作为远端可见的名字或队伍真相 |
+| `ARoomPlayerController` | 回合结束后的 Session 清理和返回主菜单 | 客户端只处理自己的本地跳转，不决定服务器回合结果 |
 | `ShooterPlayerState` | 公开名字、阵营、击杀/死亡数、复活相关数据 | 远端可见身份与得分的唯一来源 |
 | `FppShooter` | 输入以及 Server/Multicast RPC 转发 | 客户端请求必须进入服务端校验；Multicast 只能做表现 |
 | `Shooter` | 生命、死亡、当前武器、装备、拾取、丢弃、复活 | 所有玩法状态和武器归属的变更均由服务器负责 |
@@ -84,8 +105,31 @@ BP_MyGamemode
 
 在开始 C++ 战斗切片前，必须在编辑器中确认 `all-*` Multicast 函数不会修改弹药、生命、得分、武器归属或比赛规则。尤其要确认 Week5 审计中指出的开火、换弹、切枪、丢枪、死亡、拾取和复活链路。
 
+## 当前运行方向
+
+```text
+本机 Windows 开发和验证
+  -> Windows Dedicated Server 打包
+  -> 腾讯云固定公网 IP 验证
+  -> 服务器端权威和测试级反作弊
+  -> 最后 Linux Dedicated Server 适配
+```
+
+当前不使用：
+
+```text
+EOS
+Steam
+账号登录
+普通玩家服务器密码
+服务器列表
+自动封禁
+```
+
 ## 里程碑边界
 
-M1 用于在 UE5.8 Windows Dedicated Server 上恢复已有蓝图玩法。M1 不进行大范围玩法重构。
+M1 用于在 UE5.8 Windows 环境中完成现有房间生命周期的 C++ 迁移。M1 不进行大范围战斗玩法重构，也不处理 Linux。
+
+M2 用于在 Windows Dedicated Server 上打包和验证当前房间逻辑。
 
 M3 引入服务端权威战斗切片的 C++ 基类，同时保留蓝图子类承载资产、动画、UI 和地图表现。预期引入顺序为 `AShooterGameState`、`AShooterPlayerState`、`AShooterCharacterBase`、`AWeaponBase`、`AShooterGameMode` 和 `AShooterPlayerController`。
